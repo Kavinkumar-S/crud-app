@@ -1,0 +1,25 @@
+{
+  "employees": [
+    {
+      "name": "Kavinkumar",
+      "email": "kavinselvaraj484@gmail.com",
+      "id": "3",
+      "mobile": "9080772",
+      "role": "sde 3"
+    },
+    {
+      "name": "john doe",
+      "email": "john@gmail.com",
+      "id": "1",
+      "mobile": "0908077244",
+      "role": "abc"
+    },
+    {
+      "name": "Kavi",
+      "email": "kavinselvaraj484@gmail.com",
+      "id": "7",
+      "mobile": "080772441",
+      "role": "abc"
+    }
+  ]
+}
