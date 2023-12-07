@@ -20,11 +20,15 @@ function Home() {
     reset,
   } = useForm();
   const getEmployee = async () => {
-    let response = await axios.get(
-      `${process.env.REACT_APP_API_URL}/employees`
-    );
-    // console.log("response", response.data);
-    setData(response.data);
+    try {
+      let response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/employees`
+      );
+      // console.log("response", response.data);
+      setData(response.data);
+    } catch (error) {
+      console.log("getEmployee-error", error);
+    }
   };
 
   useEffect(() => {
@@ -32,22 +36,35 @@ function Home() {
   }, [refresh]);
 
   const handleAddEmployee = async (data) => {
-    let response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/employees`,
-      data
-    );
-    setRefresh(!refresh);
-    reset();
-    toast.success("New Employee Added Successfully");
+    try {
+      let response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/employees`,
+        data
+      );
+      setRefresh(!refresh);
+      reset();
+      toast.success("New Employee Added Successfully");
+    } catch (error) {
+      console.log("handleAddEmployee-error", error);
+      toast.error("New Employee Not Added Successfully");
+      setRefresh(!refresh);
+    }
   };
 
   const handleDelete = async (id) => {
-    let response = await axios.delete(
-      `${process.env.REACT_APP_API_URL}/employees/${id}`
-    );
-    // console.log("response", response);
-    setRefresh(!refresh);
-    toast.success("Employee Removed Successfully");
+    try {
+      let response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/employees/${id}`
+      );
+      // console.log("response", response);
+      setRefresh(!refresh);
+      toast.success("Employee Removed Successfully");
+    } catch (error) {
+      toast.error("Employee not Removed Successfully");
+      setRefresh(!refresh);
+
+      console.log("handleDelete-error", error);
+    }
   };
   const openModal = (data) => {
     setEditdata(data);
@@ -215,15 +232,17 @@ function Home() {
                   </tr>
                 ))}
 
-                          {data && data.length==0 &&
-                          <tr style={{height:"100px",textAlign:"center",padding:"20px"}}>
-                          <td colSpan={6}>
-
-                            No data
-                          </td>
-                          
-                          </tr>
-                          }
+              {data && data.length == 0 && (
+                <tr
+                  style={{
+                    height: "100px",
+                    textAlign: "center",
+                    padding: "20px",
+                  }}
+                >
+                  <td colSpan={6}>No data</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

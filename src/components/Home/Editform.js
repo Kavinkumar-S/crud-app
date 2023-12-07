@@ -1,36 +1,41 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
-import { useForm,  } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { IoIosClose } from "react-icons/io";
-function Editform({ closeModal, modalIsOpen, editdata ,refresh,setRefresh}) {
-    
-    const { register, handleSubmit,formState: { errors },setValue  } = useForm();
-    
-    const handleEditEmployee = async(data) => {
-        let datas = {...data,id:editdata.id}
-        let response = axios.put(`${process.env.REACT_APP_API_URL}/employees/${editdata.id}`,datas);
-        console.log(response);
-       setTimeout(
-()=>
-           setRefresh(!refresh),1000
-       )
-        closeModal()
-        toast.success("Employee Updated Successfully")
- };
+function Editform({ closeModal, modalIsOpen, editdata, refresh, setRefresh }) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm();
 
+  const handleEditEmployee = async (data) => {
+    try {
+      let datas = { ...data, id: editdata.id };
+      let response = axios.put(
+        `${process.env.REACT_APP_API_URL}/employees/${editdata.id}`,
+        datas
+      );
+      console.log(response);
+      setTimeout(() => setRefresh(!refresh), 1000);
+      closeModal();
+      toast.success("Employee Updated Successfully");
+    } catch (error) {
+      console.log("error", error);
+      toast.error("Employee Updated Successfully");
+    }
+  };
 
- useEffect(()=> {
-    setValue("name",editdata?.name)
-    setValue("email",editdata?.email)
-    setValue("id",editdata?.id)
-    setValue("mobile",editdata?.mobile)
-    setValue("role",editdata?.role)
-
-
- },[modalIsOpen])
-
+  useEffect(() => {
+    setValue("name", editdata?.name);
+    setValue("email", editdata?.email);
+    setValue("id", editdata?.id);
+    setValue("mobile", editdata?.mobile);
+    setValue("role", editdata?.role);
+  }, [modalIsOpen]);
 
   return (
     <div>
@@ -52,55 +57,54 @@ function Editform({ closeModal, modalIsOpen, editdata ,refresh,setRefresh}) {
         shouldCloseOnOverlayClick={false}
       >
         <div className="d-flex justify-content-end mt-2 mb-2">
-
-        <button
-        style={{padding:"0px 4px"}}
-        className="btn btn-secondary" onClick={closeModal}>
-            {/* close */}
-            <IoIosClose 
-            />
-            </button>
-        </div>
-    
-        <div>
-          <form
-            className="mb-3"
-            onSubmit={handleSubmit(handleEditEmployee)}
+          <button
+            style={{ padding: "0px 4px" }}
+            className="btn btn-secondary"
+            onClick={closeModal}
           >
+            {/* close */}
+            <IoIosClose />
+          </button>
+        </div>
+
+        <div>
+          <form className="mb-3" onSubmit={handleSubmit(handleEditEmployee)}>
             <div class="row mb-3">
               <div class="col">
                 <label for="exampleInputEmail1">Name : </label>
-               
 
-
-<input
-                    type="text"
-                    class="form-control"
-                    defaultValue={editdata && editdata.name}
-                    {...register("name", {
+                <input
+                  type="text"
+                  class="form-control"
+                  defaultValue={editdata && editdata.name}
+                  {...register("name", {
                     //   required: true,
 
-                      maxLength: 15,
-                      minLength:3
-                    })}
-                    placeholder="Enter Name"
-                  />
-                  {errors?.name?.type === "maxLength" && (
-                    <p className="error-message">Characters should been less than 15</p>
-                  )}
-                   {errors?.name?.type === "minLength" && (
-                    <p className="error-message">Characters should been greater than 3</p>
-                  )}
-
+                    maxLength: 15,
+                    minLength: 3,
+                  })}
+                  placeholder="Enter Name"
+                />
+                {errors?.name?.type === "maxLength" && (
+                  <p className="error-message">
+                    Characters should been less than 15
+                  </p>
+                )}
+                {errors?.name?.type === "minLength" && (
+                  <p className="error-message">
+                    Characters should been greater than 3
+                  </p>
+                )}
               </div>
               <div class="col">
                 <label for="exampleInputPassword1">Email : </label>
                 <input
                   type="email"
                   class="form-control"
-                    {...register("email",
+                  {...register(
+                    "email"
                     //  { required: true, }
-                     )}
+                  )}
                   defaultValue={editdata && editdata.email}
                 />
               </div>
@@ -111,9 +115,10 @@ function Editform({ closeModal, modalIsOpen, editdata ,refresh,setRefresh}) {
                   class="form-control"
                   disabled={true}
                   defaultValue={editdata && editdata.id}
-                    {...register("id", 
+                  {...register(
+                    "id"
                     // { required: true, }
-                    )}
+                  )}
                 />
               </div>
             </div>
@@ -124,10 +129,10 @@ function Editform({ closeModal, modalIsOpen, editdata ,refresh,setRefresh}) {
                   type="text"
                   class="form-control"
                   defaultValue={editdata && editdata.mobile}
-
-                   {...register("mobile", 
-                //    { required: true, }
-                   )}
+                  {...register(
+                    "mobile"
+                    //    { required: true, }
+                  )}
                 />
               </div>
               <div class="col">
@@ -135,9 +140,10 @@ function Editform({ closeModal, modalIsOpen, editdata ,refresh,setRefresh}) {
                 <input
                   type="text"
                   class="form-control"
-                   {...register("role", 
-                //    { required: true, }
-                   )}
+                  {...register(
+                    "role"
+                    //    { required: true, }
+                  )}
                   defaultValue={editdata && editdata.role}
                 />
               </div>
