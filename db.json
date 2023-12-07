@@ -8,18 +8,18 @@
       "role": "sde 3"
     },
     {
-      "name": "john doe",
-      "email": "john@gmail.com",
-      "id": "1",
-      "mobile": "0908077244",
-      "role": "abc"
+      "name": "Kavinkumar",
+      "email": "kavinselvaraj484@gmail.com",
+      "id": "4",
+      "mobile": "9080772",
+      "role": "sde 3"
     },
     {
-      "name": "Kavi",
-      "email": "kavinselvaraj484@gmail.com",
-      "id": "7",
-      "mobile": "080772441",
-      "role": "abc"
+      "name": "demo",
+      "email": "demo@gmailcom",
+      "id": "5",
+      "mobile": "9994189922",
+      "role": "editor"
     }
   ]
 }

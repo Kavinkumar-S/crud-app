@@ -6,13 +6,17 @@ import { useForm } from "react-hook-form";
 import Editform from "./Editform";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Deleteform from "./Deleteform";
+import { FaEye } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editdata, setEditdata] = useState();
-
+  const [Isdelete,setIsdelete]=useState(false)
+  const [deleteId,setDeleteId]=useState()
   const {
     register,
     handleSubmit,
@@ -41,6 +45,9 @@ function Home() {
         `${process.env.REACT_APP_API_URL}/employees`,
         data
       );
+
+      // setData([...data,data])
+
       setRefresh(!refresh);
       reset();
       toast.success("New Employee Added Successfully");
@@ -51,21 +58,7 @@ function Home() {
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      let response = await axios.delete(
-        `${process.env.REACT_APP_API_URL}/employees/${id}`
-      );
-      // console.log("response", response);
-      setRefresh(!refresh);
-      toast.success("Employee Removed Successfully");
-    } catch (error) {
-      toast.error("Employee not Removed Successfully");
-      setRefresh(!refresh);
-
-      console.log("handleDelete-error", error);
-    }
-  };
+  
   const openModal = (data) => {
     setEditdata(data);
     setIsOpen(true);
@@ -73,6 +66,12 @@ function Home() {
   function closeModal() {
     setIsOpen(false);
     setEditdata();
+  }
+
+  const deleteIsOpen=(data)=>{
+    console.log("dele",data);
+    setDeleteId(data);
+    setIsdelete(!Isdelete)
   }
 
   return (
@@ -190,7 +189,8 @@ function Home() {
           <table class="table mt-4 table-striped table-bordered">
             <thead>
               <tr>
-                <th scope="col">Id</th>
+                {/* <th scope="col">Id</th> */}
+                <th scope="col">S.No</th>
                 <th scope="col">Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Mobile</th>
@@ -200,9 +200,11 @@ function Home() {
             </thead>
             <tbody>
               {data &&
-                data.map((employee) => (
+                data.map((employee,index) => (
                   <tr key={employee.id}>
-                    <th scope="row">{employee.id}</th>
+                    {/* <th scope="row">{employee.id}</th> */}
+                    <td>{index+1}</td>
+                    
                     <td>{employee.name}</td>
                     <td>{employee.email}</td>
                     <td>{employee.mobile}</td>
@@ -219,14 +221,30 @@ function Home() {
                         <button
                           className="btn btn-danger"
                           style={{
+                            marginRight: "10px",
+                            padding: "2px 4px",
+                          }}
+                          onClick={() => 
+                            deleteIsOpen(employee.id)
+                            // handleDelete(employee.id)
+                          
+                          }
+                        >
+                          <MdDelete />
+                        </button>
+                        <Link to={`/emp/${employee.id}`}>
+                        <button className="btn btn-secondary"  style={{
                             // background: "red",
                             // border: "1px solid red",
                             padding: "2px 4px",
                           }}
-                          onClick={() => handleDelete(employee.id)}
-                        >
-                          <MdDelete />
+                          >
+                            
+                          <FaEye />
+                        
+                        
                         </button>
+                            </Link>
                       </div>
                     </td>
                   </tr>
@@ -247,6 +265,17 @@ function Home() {
           </table>
         </div>
       </div>
+
+        <div>
+      <Deleteform
+      Isopen={Isdelete}
+      deleteIsOpen ={deleteIsOpen}
+      deleteId={deleteId} 
+      refresh={refresh}
+      setRefresh={setRefresh}           
+      />   
+      </div>          
+
 
       <Editform
         closeModal={closeModal}
