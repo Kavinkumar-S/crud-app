@@ -16,10 +16,10 @@ function Editform({ closeModal, modalIsOpen, editdata, refresh, setRefresh }) {
     try {
       let datas = { ...data, id: editdata.id };
       let response = axios.put(
-        `${process.env.REACT_APP_API_URL}/employees/${editdata.id}`,
+        `${process.env.REACT_APP_API_URL}/employees/${editdata && editdata.id}`,
         datas
       );
-      console.log(response);
+      console.log(" edit response ", response);
       setTimeout(() => setRefresh(!refresh), 1000);
       closeModal();
       toast.success("Employee Updated Successfully");

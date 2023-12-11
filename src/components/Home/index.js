@@ -15,8 +15,8 @@ function Home() {
   const [refresh, setRefresh] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [editdata, setEditdata] = useState();
-  const [Isdelete,setIsdelete]=useState(false)
-  const [deleteId,setDeleteId]=useState()
+  const [Isdelete, setIsdelete] = useState(false);
+  const [deleteId, setDeleteId] = useState();
   const {
     register,
     handleSubmit,
@@ -58,7 +58,6 @@ function Home() {
     }
   };
 
-  
   const openModal = (data) => {
     setEditdata(data);
     setIsOpen(true);
@@ -68,11 +67,11 @@ function Home() {
     setEditdata();
   }
 
-  const deleteIsOpen=(data)=>{
-    console.log("dele",data);
+  const deleteIsOpen = (data) => {
+    console.log("dele", data);
     setDeleteId(data);
-    setIsdelete(!Isdelete)
-  }
+    setIsdelete(!Isdelete);
+  };
 
   return (
     <>
@@ -85,7 +84,7 @@ function Home() {
               onSubmit={handleSubmit(handleAddEmployee)}
             >
               <div class="row mb-3">
-                <div class="col">
+                <div class="col-md-4">
                   <label for="exampleInputEmail1">Name : </label>
                   <input
                     type="text"
@@ -111,7 +110,7 @@ function Home() {
                     </p>
                   )}
                 </div>
-                <div class="col">
+                <div class="col-md-4">
                   <label for="exampleInputPassword1">Email : </label>
                   <input
                     type="email"
@@ -123,7 +122,7 @@ function Home() {
                     <p className="error-message">This field is required</p>
                   )}
                 </div>
-                <div class="col">
+                <div class="col-md-4">
                   <label for="exampleInputPassword1">Employee Id : </label>
                   <input
                     type="number"
@@ -138,7 +137,7 @@ function Home() {
                 </div>
               </div>
               <div class="row mb-3">
-                <div class="col">
+                <div class="col-md-4">
                   <label for="exampleInputEmail1">Mobile Number</label>
                   <input
                     type="text"
@@ -166,7 +165,7 @@ function Home() {
                     <p className="error-message">Characters should be Number</p>
                   )}
                 </div>
-                <div class="col">
+                <div class="col-md-4">
                   <label for="exampleInputPassword1">Job Role :</label>
                   <input
                     type="text"
@@ -178,7 +177,7 @@ function Home() {
                     <p className="error-message">This field is required</p>
                   )}
                 </div>
-                <div className="col"></div>
+                <div className="col-md-4"></div>
               </div>
               <button type="submit" class="btn btn-primary">
                 Submit
@@ -200,11 +199,11 @@ function Home() {
             </thead>
             <tbody>
               {data &&
-                data.map((employee,index) => (
+                data.map((employee, index) => (
                   <tr key={employee.id}>
                     {/* <th scope="row">{employee.id}</th> */}
-                    <td>{index+1}</td>
-                    
+                    <td>{index + 1}</td>
+
                     <td>{employee.name}</td>
                     <td>{employee.email}</td>
                     <td>{employee.mobile}</td>
@@ -224,27 +223,25 @@ function Home() {
                             marginRight: "10px",
                             padding: "2px 4px",
                           }}
-                          onClick={() => 
-                            deleteIsOpen(employee.id)
+                          onClick={
+                            () => deleteIsOpen(employee.id)
                             // handleDelete(employee.id)
-                          
                           }
                         >
                           <MdDelete />
                         </button>
                         <Link to={`/emp/${employee.id}`}>
-                        <button className="btn btn-secondary"  style={{
-                            // background: "red",
-                            // border: "1px solid red",
-                            padding: "2px 4px",
-                          }}
+                          <button
+                            className="btn btn-secondary"
+                            style={{
+                              // background: "red",
+                              // border: "1px solid red",
+                              padding: "2px 4px",
+                            }}
                           >
-                            
-                          <FaEye />
-                        
-                        
-                        </button>
-                            </Link>
+                            <FaEye />
+                          </button>
+                        </Link>
                       </div>
                     </td>
                   </tr>
@@ -266,16 +263,15 @@ function Home() {
         </div>
       </div>
 
-        <div>
-      <Deleteform
-      Isopen={Isdelete}
-      deleteIsOpen ={deleteIsOpen}
-      deleteId={deleteId} 
-      refresh={refresh}
-      setRefresh={setRefresh}           
-      />   
-      </div>          
-
+      <div>
+        <Deleteform
+          Isopen={Isdelete}
+          deleteIsOpen={deleteIsOpen}
+          deleteId={deleteId}
+          refresh={refresh}
+          setRefresh={setRefresh}
+        />
+      </div>
 
       <Editform
         closeModal={closeModal}
